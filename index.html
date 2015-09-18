@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+    <!--
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="1;url=http://wparad.github.io">
+        <script type="text/javascript">
+            window.location.href = "http://wparad.github.io"
+        </script>
+        <title>Page Redirection</title>
+    -->
+		
+    
+    </head>
+    <body>
+		<script>
+			function func()
+			{
+				makeCorsRequest();
+			}
+			
+			function createCORSRequest(method, url) {
+			  var xhr = new XMLHttpRequest();
+			  if ("withCredentials" in xhr) {
+				// XHR for Chrome/Firefox/Opera/Safari.
+				xhr.open(method, url, true);
+			  } else if (typeof XDomainRequest != "undefined") {
+				// XDomainRequest for IE.
+				xhr = new XDomainRequest();
+				xhr.open(method, url);
+			  } else {
+				// CORS not supported.
+				xhr = null;
+			  }
+			  
+			  return xhr;
+			}
+			
+			// Make the actual CORS request.
+			function makeCorsRequest() {
+			  // All HTML5 Rocks properties support CORS.
+			  var url = 'http://updates.html5rocks.com';
+
+			  var xhr = createCORSRequest('GET', url);
+			  if (!xhr) {
+				alert('CORS not supported');
+				return;
+			  }
+
+			  // Response handlers.
+			  xhr.onload = function() {
+				var text = xhr.responseText;
+				alert('Response from CORS request to ' + url + ':' + text);
+			  };
+
+			  xhr.onerror = function() {
+				alert('Woops, there was an error making the request.');
+			  };
+
+			  xhr.send(null);
+			}
+</script>
+<!--
+			function Cors2(){
+				var url = 'http://updates.html5rocks.com'
+				xdr(url, 'GET', null, function(text){
+					alert('Response from CORS request to ' + text);
+				}, function() {
+					alert('Woops, there was an error making the request.');
+				});
+			 }
+			 
+			 * Make a X-Domain request to url and callback.
+			 *
+			 * @param url {String}
+			 * @param method {String} HTTP verb ('GET', 'POST', 'DELETE', etc.)
+			 * @param data {String} request body
+			 * @param callback {Function} to callback on completion
+			 * @param errback {Function} to callback on error
+			 */
+			function xdr(url, method, data, callback, errback) {
+				var req;
+				
+				if(XMLHttpRequest) {
+					req = new XMLHttpRequest();
+
+					if('withCredentials' in req) {
+						req.open(method, url, true);
+						req.onerror = errback;
+						req.onreadystatechange = function() {
+							if (req.readyState === 4) {
+								if (req.status >= 200 && req.status < 400) {
+									callback(req.responseText);
+								} else {
+									errback(new Error('Response returned with non-OK status'));
+								}
+							}
+						};
+						req.send(data);
+					}
+				} else if(XDomainRequest) {
+					req = new XDomainRequest();
+					req.open(method, url);
+					req.onerror = errback;
+					req.onload = function() {
+						callback(req.responseText);
+					};
+					req.send(data);
+				} else {
+					errback(new Error('CORS not supported'));
+				}
+			}
+		</script>
+		-->
+		<p style="font-size: 20px;" align="center">
+			<a href="#" onclick="func(); return false;">Run Sample</a>
+		</p>
+        <!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
+        If you are not redirected automatically, follow the <a href='http://wparad.github.io'>Source code landing page.</a>
+    </body>
+</html>
